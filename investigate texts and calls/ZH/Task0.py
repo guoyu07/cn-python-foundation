@@ -23,6 +23,7 @@ with open('calls.csv', 'r') as f:
 first_text = texts[0]
 print("First record of texts, {} texts {} at time {}".format(first_text[0], first_text[1],
                                                              first_text[2]))
+
 last_call = calls[-1]
 print(
     "Last record of calls, {} calls {} at time {}, lasting {} seconds".format(last_call[0], last_call[1], last_call[2],
