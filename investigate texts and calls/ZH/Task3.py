@@ -39,3 +39,71 @@ with open('calls.csv', 'r') as f:
 to other fixed lines in Bangalore."
 注意：百分比应包含2位小数。
 """
+
+
+def get_telephone_prefix(telephone):
+    """
+    获取电话的前缀
+    :param telephone:
+    :return:
+    """
+    prefix = ''
+    if telephone[0:2] == '(0':
+        prefix = telephone[1:get_char_index_for_string(telephone, ')')]
+    else:
+        end = 0
+        for _ in range(10):
+            if telephone[_ - 1] == ' ':
+                end = _ - 1
+                break
+        if end:
+            prefix = telephone[0:end]
+
+    return prefix
+
+
+def get_char_index_for_string(string, end_char):
+    """
+    获取某个字符在字符串中的位置
+    :param string:
+    :param end_char:
+    :return:
+    """
+    end = None
+    for _ in range(len(string)):
+        if string[_ - 1] == end_char:
+            end = _ - 1
+            break
+    return end
+
+
+def get_called_telephone_prefixes_by_code(calls, code):
+    """
+    通过区号，获取被这个区号呼叫的电话前缀集合
+    :param calls:
+    :param code:
+    :return:
+    """
+    prefixes = set()
+    for call in calls:
+        if call[0][0:5] == '(080)':
+            prefixes.add(get_telephone_prefix(call[1]))
+
+    return prefixes
+
+
+def count_calls_by_caller_code_and_called_code(calls, caller_code, called_code):
+    count = 0
+    for call in calls:
+        if (get_telephone_prefix(call[0]) == '080' and get_telephone_prefix(call[1]) == '080'):
+            count += 1
+
+    return count
+
+print("The numbers called by people in Bangalore have codes:")
+called_prefixes = get_called_telephone_prefixes_by_code(calls, '080')
+for called_prefix in called_prefixes:
+    print(called_prefix)
+
+percentage = round(count_calls_by_caller_code_and_called_code(calls, '080', '080') / len(calls) * 100, 2)
+print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(percentage))
