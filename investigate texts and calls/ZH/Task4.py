@@ -65,7 +65,9 @@ def get_telemarketers_telephones(calls, texts):
     telephones = set()
     for call in calls:
         caller_telephone = call[0]
-        if caller_telephone not in called_telephones and caller_telephone not in text_user_telephones:
+        if caller_telephone[0:3] == '140' \
+                and caller_telephone not in called_telephones \
+                and caller_telephone not in text_user_telephones:
             telephones.add(caller_telephone)
 
     return telephones
