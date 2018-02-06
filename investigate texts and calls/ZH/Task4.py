@@ -26,3 +26,54 @@ with open('calls.csv', 'r') as f:
 电话号码不能重复，每行打印一条，按字典顺序排序后输出。
 """
 
+
+def get_called_telephones(calls):
+    """
+    获取所有的被叫电话集合
+    :param calls:
+    :return:
+    """
+    telephones = set()
+    for call in calls:
+        telephones.add(call[1])
+    return telephones
+
+
+def get_text_user_telephones(texts):
+    """
+    获取所有的有短信接发的电话
+    :param texts:
+    :return:
+    """
+    telephones = set()
+    for text in texts:
+        telephones.add(text[0])
+        telephones.add(text[1])
+    return telephones
+
+
+def get_telemarketers_telephones(calls, texts):
+    """
+    获取疑似推销员的电话
+    :param calls:
+    :param texts:
+    :return:
+    """
+    called_telephones = get_called_telephones(calls)
+    text_user_telephones = get_text_user_telephones(texts)
+
+    telephones = set()
+    for call in calls:
+        caller_telephone = call[0]
+        if caller_telephone not in called_telephones and caller_telephone not in text_user_telephones:
+            telephones.add(caller_telephone)
+
+    return telephones
+
+
+print("These numbers could be telemarketers: ")
+
+telemarketers_telephones = get_telemarketers_telephones(calls, texts)
+
+for telephone in telemarketers_telephones:
+    print(telephone)
