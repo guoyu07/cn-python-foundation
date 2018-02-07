@@ -51,13 +51,7 @@ def get_telephone_prefix(telephone):
     if telephone[0:2] == '(0':
         prefix = telephone[1:get_char_index_for_string(telephone, ')')]
     else:
-        end = 0
-        for _ in range(10):
-            if telephone[_ - 1] == ' ':
-                end = _ - 1
-                break
-        if end:
-            prefix = telephone[0:end]
+        prefix = telephone[0:4]
 
     return prefix
 
@@ -92,18 +86,31 @@ def get_called_telephone_prefixes_by_code(calls, code):
     return prefixes
 
 
-def count_calls_by_caller_code_and_called_code(calls, caller_code, called_code):
+def count_calls_by_caller_code_and_called_code(calls, caller_code, called_code=None):
+    """
+    统计从一个区号打到另外一个区号的电话数
+    :param calls:
+    :param caller_code:
+    :param called_code:
+    :return:
+    """
     count = 0
     for call in calls:
-        if (get_telephone_prefix(call[0]) == '080' and get_telephone_prefix(call[1]) == '080'):
+        if get_telephone_prefix(call[0]) == caller_code \
+                and (called_code is None or called_code == get_telephone_prefix(call[1])):
             count += 1
 
     return count
+
 
 print("The numbers called by people in Bangalore have codes:")
 called_prefixes = get_called_telephone_prefixes_by_code(calls, '080')
 for called_prefix in called_prefixes:
     print(called_prefix)
 
-percentage = round(count_calls_by_caller_code_and_called_code(calls, '080', '080') / len(calls) * 100, 2)
-print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(percentage))
+print(count_calls_by_caller_code_and_called_code(calls, '080', '080'))
+
+percentage = round(count_calls_by_caller_code_and_called_code(calls, '080', '080')
+                   / count_calls_by_caller_code_and_called_code(calls, '080') * 100, 2)
+print(
+    "{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(percentage))
