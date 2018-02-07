@@ -29,6 +29,6 @@ for text in texts:
 # 处理通话记录内的电话
 for call in calls:
     mobile_numbers.add(call[0])
-    mobile_numbers.add(call[0])
+    mobile_numbers.add(call[1])
 
 print("There are {} different telephone numbers in the records.".format(len(mobile_numbers)))
