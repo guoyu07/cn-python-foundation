@@ -106,9 +106,7 @@ def count_calls_by_caller_code_and_called_code(calls, caller_code, called_code=N
 print("The numbers called by people in Bangalore have codes:")
 called_prefixes = get_called_telephone_prefixes_by_code(calls, '(080)')
 for called_prefix in called_prefixes:
-    print(called_prefix)
-
-print(count_calls_by_caller_code_and_called_code(calls, '080', '080'))
+    print('< {} >'.format(called_prefix))
 
 percentage = round(count_calls_by_caller_code_and_called_code(calls, '080', '080')
                    / count_calls_by_caller_code_and_called_code(calls, '080') * 100, 2)
