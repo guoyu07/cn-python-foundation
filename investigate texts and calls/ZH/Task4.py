@@ -68,7 +68,7 @@ def get_telemarketers_telephones(calls, texts):
         if caller_telephone not in called_telephones and caller_telephone not in text_user_telephones:
             telephones.add(caller_telephone)
 
-    return telephones
+    return sorted(list(telephones))
 
 
 print("These numbers could be telemarketers: ")

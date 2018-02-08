@@ -80,10 +80,10 @@ def get_called_telephone_prefixes_by_code(calls, code):
     """
     prefixes = set()
     for call in calls:
-        if call[0][0:5] == '(080)':
+        if call[0][0:5] == code:
             prefixes.add(get_telephone_prefix(call[1]))
 
-    return prefixes
+    return sorted(list(prefixes))
 
 
 def count_calls_by_caller_code_and_called_code(calls, caller_code, called_code=None):
@@ -104,7 +104,7 @@ def count_calls_by_caller_code_and_called_code(calls, caller_code, called_code=N
 
 
 print("The numbers called by people in Bangalore have codes:")
-called_prefixes = get_called_telephone_prefixes_by_code(calls, '080')
+called_prefixes = get_called_telephone_prefixes_by_code(calls, '(080)')
 for called_prefix in called_prefixes:
     print(called_prefix)
 
